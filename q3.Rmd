@@ -1,0 +1,39 @@
+---
+title: "q3"
+output: html_document
+---
+
+```{r}
+#get the data
+
+library("data.table")
+
+data <- fread(input = "gunzip -c /ix1/hugen2073-2026s/hw3/Insomnia_sumstats_Jansenetal_sorted.txt.gz")
+
+
+```
+```{r}
+#filter out CHR = X
+#as.numeric them
+
+library(tidyverse)
+
+data1 <- data %>% filter(CHR != "X")
+
+data1$CHR <- as.numeric(data1$CHR)
+```
+
+
+```{r}
+library("qqman")
+
+manhattan(data1, chr = "CHR", bp = "BP", p = "P", snp = "SNP", col = c("lightblue", "pink"), annotatePval = 0.000001)
+
+ggsave("manhattan.png", width = 8, height = 8, units = "cm", dpi = 300)
+
+#png("manhattan.png", w = 8, h = 8, u = "cm", r = 300)
+#plot(manhattan(data1, chr = "CHR", bp = "BP", p = "P", snp = "SNP", col = c("lightblue", "pink"), annotatePval = 0.000001))
+#dev.off()
+```
+
+
